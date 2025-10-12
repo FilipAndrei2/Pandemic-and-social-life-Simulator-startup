@@ -1,0 +1,21 @@
+Ziua 1: Crează proiect Java + Swing, directoare model/, view/, controller/, clase de bază Person, Family, Building, House, World.
+Ziua 2: Implementează grid 2D, metode thread-safe pentru adăugare/ștergere indivizi în celule.
+Ziua 3: Creează populație, asociază indivizi cu familii și case, testează poziționarea.
+Ziua 4: Mișcare simplă a indivizilor (random walk) cu ScheduledExecutorService sau ThreadPool.
+Ziua 5: Adaugă clădiri (școli, spitale), metode enter() / exit() thread-safe.
+Ziua 6: Probabilitate de infectare simplă între indivizi în aceleași celule/clădiri.
+Ziua 7: Testare și debugging logica indivizi + clădiri, fix deadlocks/race conditions minore.
+Ziua 8: Creează PersonTask și BuildingTask implementând Runnable, ExecutorService preia task-uri.
+Ziua 9: Logică infecție detaliată: stări healthy, infected, recovered, timp de recuperare.
+Ziua 10: Thread-safe update pentru clădiri: ocupanți, capacitate, probabilitate infectare.
+Ziua 11: Familii multiple și interacțiune între membri, șanse crescute de infectare în casă.
+Ziua 12: Logger thread-safe: evenimente infectare, recuperare, stocare într-o coadă pentru DB/fișier.
+Ziua 13: Integrare SQLite/H2, salvare periodică a stării indivizilor și clădirilor, batch insert.
+Ziua 14: Testare multithreading: indivizi se mișcă și se infectează corect fără blocaje.
+Ziua 15: Swing JPanel pentru vizualizare, desenează grid, clădiri și indivizi (culori după stare).
+Ziua 16: Controller: butoane Start/Stop, slider pentru rata de infectare, capacitate clădiri.
+Ziua 17: Integrare Observer pattern: Model notifică View pentru update vizual pe EDT (invokeLater).
+Ziua 18: Testare și ajustări UI: culori, tooltip-uri, refresh vizual la timestep.
+Ziua 19: Salvare/load simulation din DB, testare restaurare stării simulării.
+Ziua 20: Debugging final: deadlocks, race conditions, corectitudine logică infecție și mișcare.
+Ziua 21: Demo-ready MVP: prezentare funcțională, screenshot-uri și video pentru CV.

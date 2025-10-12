@@ -1,12 +1,15 @@
 package org.filipandrei.pss.view;
 
-import org.filipandrei.pss.model.Model;
+import org.filipandrei.pss.model.SimulationModel;
+import org.filipandrei.pss.model.entities.Entity;
+import org.filipandrei.pss.model.entities.Person;
+import org.filipandrei.pss.model.entities.World;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class SwingSimViewImpl extends View {
+public class SimulationViewImpl extends SimulationView {
 
     private JFrame frame = null;
     private JPanel panel = null;
@@ -14,7 +17,7 @@ public class SwingSimViewImpl extends View {
     private static final int WINDOW_HEIGHT = 720;
     private static final String WINDOW_TITLE = "Pandemic Simulation";
 
-    public SwingSimViewImpl(@NotNull Model model) {
+    public SimulationViewImpl(@NotNull SimulationModel model) {
         super(model);
     }
 
@@ -51,10 +54,23 @@ public class SwingSimViewImpl extends View {
 
     }
 
+    @Override
+    public void drawWorld() {
+        World worldRef = model.getWorld();
+        Graphics g = panel.getGraphics();
+        g.setColor(Color.GREEN);
+        for (Entity e : worldRef.entities.values()) {
+            if (!(e instanceof Person)) {
+                continue;
+            }
+            Person p = (Person) e;
+            g.drawOval((int) p.pos.x, (int) p.pos.y, 40, 40);
+        }
+    }
 
 
     @Override
     public void draw() {
-        panel.paintImmediately(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+        drawWorld();
     }
 }

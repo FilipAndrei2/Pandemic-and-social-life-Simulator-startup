@@ -1,13 +1,13 @@
 package org.filipandrei.pss.view;
 
-import org.filipandrei.pss.model.Model;
+import org.filipandrei.pss.model.SimulationModel;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class View {
+public abstract class SimulationView {
 
-    protected Model model;
+    protected SimulationModel model;
 
-    protected View(@NotNull Model model) {
+    protected SimulationView(@NotNull SimulationModel model) {
         if (model == null) {
             throw new IllegalArgumentException("model cannot be null");
         }
@@ -15,7 +15,9 @@ public abstract class View {
     }
     public abstract void createView();
     public abstract void destroyView();
-    public abstract void drawGrid();
+
 
     public abstract void draw();
+    public abstract void drawGrid();
+    public abstract void drawWorld();
 }
