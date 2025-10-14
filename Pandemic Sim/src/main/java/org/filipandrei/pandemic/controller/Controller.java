@@ -1,7 +1,7 @@
-package org.filipandrei.pss.controller;
+package org.filipandrei.pandemic.controller;
 
-import org.filipandrei.pss.model.Model;
-import org.filipandrei.pss.view.View;
+import org.filipandrei.pandemic.model.Model;
+import org.filipandrei.pandemic.view.View;
 
 /**
  * Clasa de legatura dintre interfetele Model si View

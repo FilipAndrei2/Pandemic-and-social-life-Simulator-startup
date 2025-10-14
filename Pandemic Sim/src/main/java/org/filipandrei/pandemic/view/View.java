@@ -1,6 +1,6 @@
-package org.filipandrei.pss.view;
+package org.filipandrei.pandemic.view;
 
-import org.filipandrei.pss.model.dtos.ReadOnlyWorld;
+import org.filipandrei.pandemic.model.entities.Simulation;
 
 /**
  * Interfata componentei view din arhitectura MVC. View este gandita sa ruleze pe un thread separat.
@@ -10,7 +10,7 @@ public interface View {
     /**
      * Deseneaza starea curenta a lumii
      */
-    void drawWorld(ReadOnlyWorld world);
+    void drawWorld(Simulation world);
 
     /**
      * Seteaza callback pentru cand utilizatorul apasa Start

@@ -1,15 +1,15 @@
-package org.filipandrei.pss.model;
+package org.filipandrei.pandemic.model;
 
 
-import org.filipandrei.pss.model.dtos.Entity;
-import org.filipandrei.pss.model.dtos.ReadOnlyWorld;
+import org.filipandrei.pandemic.model.entities.Entity;
+import org.filipandrei.pandemic.model.entities.Simulation;
 
 import java.util.Collection;
 import java.util.Optional;
 
 public interface Model {
 
-    ReadOnlyWorld getReadOnlyWorld();
+    Simulation getReadOnlyWorld();
 
     /**
      * Creaza o noua lume activa.
