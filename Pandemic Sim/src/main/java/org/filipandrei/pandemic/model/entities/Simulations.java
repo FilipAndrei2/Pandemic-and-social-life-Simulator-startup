@@ -1,21 +1,28 @@
 package org.filipandrei.pandemic.model.entities;
 
+import org.filipandrei.pandemic.model.db.SimulationDao;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Simulations {
 
-    private static Map<Short, Simulation> simulations = new ConcurrentHashMap<>();
+    private static Map<Integer, Simulation> simulations = new ConcurrentHashMap<>();
 
     /**
-     * Return simulation from RAM.
+     * Retrieves a simulation by its ID.
      * <p>
+     * If no simulation is found in the memory (RAM), a query is sent to the database.
+     * If no simulation is mapped to the given {@code simId}, this method returns {@code null}.
      * </p>
-     * @param simId
-     * @return a reference to a {@code Simulation} object representing a simulation loaded from db, or {@code null}, if there is not any simulation mapped to {@code simId}
+     *
+     * @param simId the ID of the simulation to retrieve
+     * @return a reference to the {@code Simulation} object associated with the specified ID,
+     *         or {@code null} if no such simulation exists
      */
-    public static Simulation getSimulationById(short simId) {
-        //
-        return simulations.get(simId);
+    public static Simulation getSimulationById(int simId) {
+        return simulations.computeIfAbsent(simId, id ->
+                new SimulationDao().getById(id)
+        );
     }
 }

@@ -1,5 +1,7 @@
 package org.filipandrei.pandemic.model.entities;
 
+import kotlin.NotImplementedError;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -14,34 +16,13 @@ public class Family extends Entity {
 
     private final String familyName;
 
-    public Family(int id, short simId, String familyName) {
+    public Family(int id, int simId, String familyName, Simulation sim) {
         super(id, simId);
         this.familyName = familyName;
     }
 
-    /**
-     * Incearca sa adauge un nou membru in familie
-     * @param memberId id-ul membrului care incearca sa-l adauge
-     * @throws RuntimeException Daca a fost atinsa limita numarului de membri {@code MAX_NUMBER_OF_MEMBERS}. Daca id-ul nu este asociat unui obiect de tip Person
-     */
-    public void addFamilyMember(int memberId) throws RuntimeException {
-        if (memberIds.size() >= MAX_NUMBER_OF_MEMBERS) {
-            throw new RuntimeException("Trying to add member to family " + this.id + ". Family is full!");
-        }
-        Entity e = this.getSimulation().getEntityById(memberId);
-        if (e == null) {
-            throw new RuntimeException("Trying to insert member " + memberId + " into family " + id + ". Member not found!");
-        }
-        if (!(e instanceof Person)) {
-            throw new RuntimeException("Trying to insert member " + memberId + " into family " + id + ". Id of member references to entity of type " + e.getClass().getName() + "!");
-        }
-        Person p = (Person)e;
-        if (p.getFamilyId() != this.id ) {
-            p.setFamilyId(id);
-        }
-        if (!memberIds.contains(memberId)) {
-            memberIds.add(memberId);
-        }
+    public void addFamilyMember(Person p) throws RuntimeException {
+        throw new NotImplementedError(); // TODO
     }
 
 
@@ -59,5 +40,10 @@ public class Family extends Entity {
 
     public List<Integer> getMemberIds() {
         return Collections.unmodifiableList(memberIds);
+    }
+
+    @Override
+    public void update(ReadOnlySimulation sim) {
+
     }
 }

@@ -7,12 +7,17 @@ public  class Child extends Person {
         super(other);
     }
 
-    public Child(int id, short simId, int familyId, int maxHp, String name, boolean isInsideBuilding, Vehicle vehicle, House houseId, Vector2 position, InfectionState infectionState, LifeStage lifeStage, Profession profession, ActivityState activity, Mood mood) {
+    public Child(int id, int simId, int familyId, int maxHp, String name, boolean isInsideBuilding, Vehicle vehicle, House houseId, Vector2 position, InfectionState infectionState, LifeStage lifeStage, Profession profession, ActivityState activity, Mood mood) {
         super(id, simId, familyId, maxHp, name, isInsideBuilding, vehicle, houseId, position, infectionState, lifeStage, profession, activity, mood);
     }
 
     @Override
     public int getSpeed() {
         return 0;
+    }
+
+    @Override
+    public void update(ReadOnlySimulation sim) {
+
     }
 }

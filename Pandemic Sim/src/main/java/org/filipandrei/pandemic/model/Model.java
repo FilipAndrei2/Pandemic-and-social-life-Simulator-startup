@@ -1,83 +1,80 @@
 package org.filipandrei.pandemic.model;
 
 
-import org.filipandrei.pandemic.model.entities.Entity;
+import org.filipandrei.pandemic.model.entities.ReadOnlySimulation;
 import org.filipandrei.pandemic.model.entities.Simulation;
 
 import java.util.Collection;
 import java.util.Optional;
 
+/**
+ * Represents the core model of the pandemic simulation, responsible for managing simulations
+ * and their entities. Provides methods to create, load, save, delete, and manipulate
+ * simulations, as well as to control the execution of the simulation loop.
+ */
 public interface Model {
 
-    Simulation getReadOnlyWorld();
+    /**
+     * Creates a new active simulation world with the specified name and sets it as active.
+     * @param name the name of the new simulation world
+     */
+    void createAndReadActiveSimulation(String name);
 
     /**
-     * Creaza o noua lume activa.
-     * @param name Numele noii lumi
-     * @param config Descriptorul simularii, un obiect care contine informatii despre nr de persoane, nr de infectati initiali, rata de infectare etc.
-     * @return true daca s-a reusit crearea si setarea lumii, altfel fals
+     * Loads an existing simulation world by its ID and sets it as active.
+     *
+     * @param simId the ID of the simulation world to load
+     * @return {@code true} if the world was successfully found and loaded, {@code false} otherwise
      */
-    boolean createAndSetActiveWorld(String name, SimulationConfig config);
+    boolean readActiveSimulation(int simId);
 
     /**
-     * Incarca o lume existenta dupa ID.
-     * @param simId Id-ul lumii
-     * @return true daca a fost gasita si incarcata, altfel fals
+     * Saves the current active simulation world.
+     * Impl detail: Poti primi beneficii daca incerci sa faci salvarea in bd pe un alt thread virtual.
+     * @return {@code true} if the world was successfully saved, {@code false} otherwise
      */
-    boolean loadActiveWorld(int simId);
+    boolean updateActiveSimulation();
 
     /**
-     * Salveaza lumea curenta.
-     * @return true daca s-a reusit salvarea, altfel fals
+     * Deletes a simulation world identified by its ID.
+     *
+     * @param simId the ID of the simulation world to delete
      */
-    boolean saveActiveWorld();
+    void deleteSimulation(int simId);
 
     /**
-     * Sterge o lume dupa ID.
-     * @param simId Id-ul lumii
-     * @return true daca s-a reusit stergerea, altfel fals
+     * Returns the ID of the currently active simulation world, if present.
+     *
+     * @return an {@link Optional} containing the active simulation ID, or empty if no world is active
      */
-    boolean deleteWorld(int simId);
+    Optional<Integer> getActiveSimulationId();
 
     /**
-     * Returneaza ID-ul lumii active daca exista.
-     * @return Optional cu ID-ul lumii active sau empty daca nu exista
+     * Returns a read-only view of the current simulation world.
+     *
+     * @return the {@link Simulation} representing the current world in a read-only manner, or {@code null} if no active simulation is set
      */
-    Optional<Integer> getActiveWorldId();
+    ReadOnlySimulation getReadOnlySimulation();
 
     /**
-     * Schimba numele lumii active.
-     * @param newName Noul nume
+     * Changes the name of the currently active simulation world.
+     *
+     * @param newName the new name to assign to the active simulation
      */
-    void setActiveWorldName(String newName);
+    void setActiveSimulationName(String newName);
 
     /**
-     * Adauga o entitate in lumea activa.
-     * @param e Entitatea de adaugat
-     * @return true daca s-a reusit adaugarea, altfel fals
+     * Updates current simulation for one tick.
+     * The control of the main loop is designated to the Controller.
      */
-    boolean addEntity(Entity e);
+    void tick();
 
     /**
-     * Adauga un set de entitati in lumea activa.
-     * @param e Colectia de entitati
-     * @return true daca s-au adaugat, altfel fals
+     *
+     * @return A collection with the names of the simulations available in the database, an empty collection if no simulations are in the db or if the db does not exist.
      */
-    boolean addEntities(Collection<Entity> e);
+    Collection<String> getSimulationsNames();
 
-    /**
-     * Porneste simularea pe un thread separat.
-     */
-    void startSimulation();
+    void endAndSaveActiveSim();
 
-    /**
-     * Opreste simularea si lasa thread-ul sa se inchida curat.
-     */
-    void stopSimulation();
-
-    /**
-     * Verifica daca simularea este activa.
-     * @return true daca threadul de simulare ruleaza, altfel false
-     */
-    boolean isSimulationRunning();
 }

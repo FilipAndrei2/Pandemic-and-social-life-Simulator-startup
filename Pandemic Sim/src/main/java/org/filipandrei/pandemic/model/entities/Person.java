@@ -1,10 +1,9 @@
 package org.filipandrei.pandemic.model.entities;
 
 import org.filipandrei.pandemic.model.math.Vector2;
+import org.jetbrains.annotations.Contract;
 
-public abstract class Person extends Entity {
-
-
+public abstract class Person extends Entity implements ReadOnlyPerson {
 
     /**
      * Intervale de valori pentru maxHp
@@ -23,7 +22,9 @@ public abstract class Person extends Entity {
     public static final int OLD_MAX_HP_UPPER_LIMIT = 350;
 
     @Persisted
-    public int familyId;
+    protected int familyId;
+    @Persisted
+    protected int partnerId = -1;
     @Persisted
     protected int maxHp;
     @Persisted
@@ -35,7 +36,7 @@ public abstract class Person extends Entity {
     @Persisted
     protected Vehicle vehicle = null;
     @Persisted
-    protected House houseId;
+    protected House house;
     @Persisted
     protected Vector2 position;
     @Persisted
@@ -48,8 +49,10 @@ public abstract class Person extends Entity {
     protected ActivityState activity;
     @Persisted
     protected Mood mood;
+    @Persisted
+    protected Person partner = null;
 
-    public Person(int id, short simId, int familyId, int maxHp, String name, boolean isInsideBuilding, Vehicle vehicle, House houseId, Vector2 position, InfectionState infectionState, LifeStage lifeStage, Profession profession, ActivityState activity, Mood mood) {
+    public Person(int id, int simId, int familyId, int maxHp, String name, boolean isInsideBuilding, Vehicle vehicle, House houseId, Vector2 position, InfectionState infectionState, LifeStage lifeStage, Profession profession, ActivityState activity, Mood mood) {
         super(id, simId);
         this.familyId = familyId;
         this.maxHp = maxHp;
@@ -57,7 +60,7 @@ public abstract class Person extends Entity {
         this.name = name;
         this.isInsideBuilding = isInsideBuilding;
         this.vehicle = vehicle;
-        this.houseId = houseId;
+        this.house = houseId;
         this.position = position;
         this.infectionState = infectionState;
         this.lifeStage = lifeStage;
@@ -68,14 +71,14 @@ public abstract class Person extends Entity {
 
     public Person(Person other) {
         this(
-                other.id,
-                other.simId,
+                other.getId(),
+                other.getSimId(),
                 other.familyId,
                 other.maxHp,
                 other.name,
                 other.isInsideBuilding,
                 other.vehicle,
-                other.houseId,
+                other.house,
                 other.position,
                 other.infectionState,
                 other.lifeStage,
@@ -84,55 +87,67 @@ public abstract class Person extends Entity {
                 other.mood
         );
     }
-
+    @Override
     public int getFamilyId() {
         return this.familyId;
     }
 
+    @Override
     public int getMaxHp() {
         return this.maxHp;
     }
 
+    @Override
     public int getHp() {
         return this.hp;
     }
 
+    @Override
     public String getName() {
         return this.name;
     }
 
+    @Override
     public boolean isInsideBuilding() {
         return this.isInsideBuilding;
     }
 
+    @Override
     public Vehicle getVehicle() {
         return this.vehicle;
     }
 
-    public House getHouseId() {
-        return this.houseId;
+    @Override
+    public int getHouseId() {
+        return this.house.getId();
     }
 
+    @Override
     public Vector2 getPosition() {
         return this.position;
     }
 
+    @Override
     public InfectionState getInfectionState() {
         return this.infectionState;
     }
 
+    @Override
     public LifeStage getLifeStage() {
         return this.lifeStage;
     }
 
+    @Override
     public Profession getProfession() {
         return this.profession;
     }
 
+    @Override
     public ActivityState getActivity() {
         return this.activity;
     }
 
+    @Override
     public Mood getMood() {
         return this.mood;
     }
@@ -150,6 +165,7 @@ public abstract class Person extends Entity {
      *
      * @return an integer between 0 and 200 representing the movement speed of this object
      */
+    @Contract(pure = true)
     public abstract int getSpeed();
 
     public void setFamilyId(int familyId) {
@@ -238,8 +254,40 @@ public abstract class Person extends Entity {
         return false;
     }
 
+    /**
+     *
+     * @return {@link Person#getId} of the linked partner, {@code 0} if {@code this} has no partner.
+     */
+    public int getPartnerId() {
+        if (this.partnerId != partner.getId()) {
+            throw new IllegalStateException("Partner is in illegal state");
+        }
+        return this.partnerId;
+    }
+
+    public void setPartnerById(int partnerId) {
+
+    }
+
+    public int getVehicleId() {
+        return vehicle.getId();
+    }
+
     public enum InfectionState {
-        DEAD, HEALTHY, INFECTED, IMMUNIZED, VACCINATED, IMMUNE
+        DEAD, HEALTHY, INFECTED, IMMUNIZED, VACCINATED, IMMUNE;
+
+        @Override
+        public String toString() {
+            return switch (this) {
+                case DEAD -> "DEAD";
+                case HEALTHY -> "HEALTHY";
+                case INFECTED -> "INFECTED";
+                case IMMUNIZED -> "IMMUNIZED";
+                case VACCINATED -> "VACCINATED";
+                case IMMUNE -> "IMMUNE";
+                default -> "UNKNOWN";
+            };
+        }
     }
 
     public enum LifeStage {
@@ -261,6 +309,16 @@ public abstract class Person extends Entity {
                 }
             }
             throw new IllegalArgumentException("Invalid state: " + state);
+        }
+
+        @Override
+        public String toString() {
+            return switch (this) {
+                case INFANT -> "INFANT";
+                case CHILD -> "CHILD";
+                case ADULT -> "ADULT";
+                case OLD -> "OLD";
+            };
         }
     }
 

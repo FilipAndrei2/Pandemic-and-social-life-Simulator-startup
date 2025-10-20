@@ -1,0 +1,21 @@
+INSERT OR REPLACE INTO persons(
+    id,
+    sim_id,
+    partner_id,
+    house_id,
+    vehicle_id,
+    family_id,
+    name,
+    infectionState,
+    lifeStage,
+    profession,
+    mood,
+    maxHp,
+    hp,
+    maxEnergy,
+    energy,
+    world_x,
+    world_y,
+    isInsideBuilding,
+    isTired
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?, ?, ?, ?, ?)

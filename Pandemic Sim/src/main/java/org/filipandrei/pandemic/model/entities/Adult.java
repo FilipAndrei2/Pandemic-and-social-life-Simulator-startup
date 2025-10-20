@@ -1,5 +1,6 @@
 package org.filipandrei.pandemic.model.entities;
 
+import kotlin.NotImplementedError;
 import org.filipandrei.pandemic.model.math.Vector2;
 
 public class Adult extends Person {
@@ -14,5 +15,11 @@ public class Adult extends Person {
     @Override
     public int getSpeed() {
         return 0; // TODO: IMPLEMENT
+    }
+
+
+    @Override
+    public void update(ReadOnlySimulation sim) {
+        throw new NotImplementedError(); // TODO
     }
 }

@@ -17,4 +17,12 @@ public class Infant extends Person {
     public int getSpeed() {
         throw new NotImplementedError(); // TODO
     }
+
+    /**
+     * @param sim
+     */
+    @Override
+    public void update(ReadOnlySimulation sim) {
+
+    }
 }

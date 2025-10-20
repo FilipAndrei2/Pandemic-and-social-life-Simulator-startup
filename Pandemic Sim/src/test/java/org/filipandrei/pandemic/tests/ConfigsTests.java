@@ -8,6 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ConfigsTests {
     @Test
     void ReadDataBaseUrl() {
-        assertEquals("jdbc:sqlite:data/test_database.db", Configs.get("db.url"));
+        assertEquals("jdbc:sqlite:test_database.db", Configs.get("db.url"));
     }
 }
